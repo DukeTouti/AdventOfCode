@@ -29,6 +29,45 @@ int est_invalide(long long n) {
 	return 1;
 }
 
+
+/* Second Star */
+int est_invalide2(long long n) {
+	char string[1000];
+	
+	sprintf(string, "%lld", n);
+	
+	int taille = strlen(string);
+	int moitie = taille / 2;
+	
+	if (string[0] == 0) {
+		return 1;
+	}
+	
+	for (long long motif = 1 ; motif <= moitie ; motif++) {
+	
+		if ((taille % motif) != 0) {
+			continue ;
+		}
+		
+	
+		int valide = 1;
+		for (long long i = motif ; i < taille ; i++) {
+			if (string[i] != string [i % motif]) {
+				valide = 0;
+				continue ;
+			}
+		}
+		
+		if (valide) {
+			return 1;
+		}
+	}
+	
+	return 0;
+}
+
+
+
 int main(int argc, char** argv) {
 	
 	FILE* f;
@@ -53,7 +92,17 @@ int main(int argc, char** argv) {
 			printf("Range : %lld à %lld\n", start, end);
 			
 			for (long long i = start ; i <= end ; i++) {
-				if (est_invalide(i)) {
+				/* ============================================ FIRST STAR ============================================ 
+				 *
+				 *	if (est_invalide(i)) {
+				 *		somme += i ;
+				 *		printf ("%lld est invalide, voici la nouvelle valeur de la somme : %lld\n", i, somme);
+				 *	}
+				 *
+				 */
+			
+				/* ============================================ SECOND STAR ============================================ */
+				if (est_invalide2(i)) {
 					somme += i ;
 					printf ("%lld est invalide, voici la nouvelle valeur de la somme : %lld\n", i, somme);
 				}
