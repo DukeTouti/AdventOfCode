@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* First Star */
 int gauche(int pas, int pos) {
 	int nouvelle_pos = (pos - pas) % 100;
 	
@@ -21,6 +22,36 @@ int verification(int position) {
 	}
 	
 	return 0;
+}
+
+/* Second Star (methode, pas par pas) */
+
+int compte_zero_gauche(int pas, int pos, int* code) {
+	*code = 0;
+	
+	for (int i = 0 ; i < pas ; i++) {
+		pos = (pos - 1 + 100) % 100;
+		
+		if (pos == 0) {
+			(*code)++;
+		}
+	}
+	
+	return pos;
+}
+
+int compte_zero_droite(int pas, int pos, int* code) {
+	*code = 0;
+	
+	for (int i = 0 ; i < pas ; i++) {
+		pos = (pos + 1) % 100;
+		
+		if (pos == 0) {
+			(*code)++;
+		}
+	}
+	
+	return pos;
 }
 
 
@@ -44,6 +75,7 @@ int main(int argc, char** argv) {
 		
 		char sens;
 		int pas_rotation;
+		int nb_zeros;
 		
 		printf("Position initiale : %d\n", pos);
 		
@@ -51,14 +83,32 @@ int main(int argc, char** argv) {
 			
 			switch(sens) {
 				case 'L':
-					pos = gauche(pas_rotation, pos);
-					printf("nouvelle position : %d\n", pos);
-					code_coffre += verification(pos);
+					/* ====================================== FIRST STAR ====================================== 
+					 *
+					 *	pos = gauche(pas_rotation, pos);
+					 *	printf("L%d -> nouvelle position %d (passé par 0 : %d fois)\n", pas_rotation, pos);
+					 *	code_coffre += verification(pos);
+					 *
+					 */
+					
+					/* ====================================== SECOND STAR ====================================== */
+					pos = compte_zero_gauche(pas_rotation, pos, &nb_zeros);
+					printf("L%d -> nouvelle position %d (passé par 0 : %d fois)\n", pas_rotation, pos, nb_zeros);
+					code_coffre += nb_zeros;
 					break;
 				case 'R':
-					pos = droite(pas_rotation, pos);
-					printf("nouvelle position : %d\n", pos);
-					code_coffre += verification(pos);
+					/* ====================================== FIRST STAR ====================================== 
+					 *
+					 *	pos = droite(pas_rotation, pos);
+					 *	printf("R%d -> nouvelle position %d (passé par 0 : %d fois)\n", pas_rotation, pos);
+					 *	code_coffre += verification(pos);
+					 *
+					 */
+					
+					/* ====================================== SECOND STAR ====================================== */
+					pos = compte_zero_droite(pas_rotation, pos, &nb_zeros);
+					printf("R%d -> nouvelle position %d (passé par 0 : %d fois)\n", pas_rotation, pos, nb_zeros);
+					code_coffre += nb_zeros;
 					break;
 				default:
 					printf("Sens inconnu: %c\n", sens);
