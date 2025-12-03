@@ -34,6 +34,33 @@ int max(long long *tab, long long taille) {
 }
 
 /* Second Star */
+long long max_nombre_12_chiffres(long long *tab, long long taille) {
+	if (taille < 12) {
+		return 0;
+	}
+
+	long long resultat = 0;
+	long long pos_actuelle = 0;
+
+	for (int i = 0 ; i < 12 ; i++) {
+		int max_chiffre = -1;
+		long long pos_max = pos_actuelle;
+
+		long long limite = taille - (12 - i);
+
+		for (long long j = pos_actuelle ; j <= limite ; j++) {
+			if (tab[j] > max_chiffre) {
+				max_chiffre = tab[j];
+				pos_max = j;
+			}
+		}
+
+		resultat = resultat * 10 + max_chiffre;
+		pos_actuelle = pos_max + 1;
+	}
+
+	return resultat;
+}
 
 int main(int argc, char** argv) {
 	
@@ -54,15 +81,22 @@ int main(int argc, char** argv) {
 		long long tab[10000];
 		
 		while(fscanf(f, "%s", ligne) == 1) {
-			/* ============================================ FIRST STAR ============================================= */ 
+			/* ============================================ FIRST STAR =============================================  
+			 *	long long taille = string_to_int_array(ligne, tab);
+			 *
+			 *	int res = max(tab, taille);
+			 *	printf("Max de cette ligne : %d\n", res);
+			 *
+			 *	somme += res;
+			 */
+			 
+			/* ============================================ SECOND STAR ============================================ */
 			long long taille = string_to_int_array(ligne, tab);
 			
-			int res = max(tab, taille);
-			printf("Max de cette ligne : %d\n", res);
+			long long res = max_nombre_12_chiffres(tab, taille);
+			printf("Max de cette ligne : %lld\n", res);
 			
 			somme += res;
-			/* ============================================ SECOND STAR ============================================ */
-			
 		}
 		
 		fclose(f);
